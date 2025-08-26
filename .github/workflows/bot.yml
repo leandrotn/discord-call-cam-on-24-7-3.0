@@ -1,0 +1,27 @@
+name: Discord Bot
+
+on:
+  workflow_dispatch: # você pode ligar manual
+  schedule:
+    - cron: "0 */6 * * *" # roda a cada 6h
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install deps
+        run: npm install
+
+      - name: Start Bot
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: node index.js
